@@ -15,8 +15,8 @@ export default function RootLayout({
   return(
       <html lang="ko">
         <body className="bg-white text-gray-900">
-            <div className="mx-auto min-h-screen max-w-4xl px-6 py-8">
-                <header className="mb-10 border-b pb-4">
+            <div className="mx-auto min-h-screen max-w-5xl px-6 py-8">
+                <header className="mb-8 border-b pb-4">
                     <div className="flex items-center justify-between">
                         <h1 className="text-2xl font-bold">Mini Content Hub</h1>
 
