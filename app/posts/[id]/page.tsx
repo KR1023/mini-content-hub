@@ -1,6 +1,5 @@
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import { getPostById} from "@/app/posts/_lib/posts";
+import { getPost, getUser} from '@/lib/api'
 
 type PostDetailPageProps = {
     params: Promise<{
@@ -11,29 +10,43 @@ type PostDetailPageProps = {
 export default async function PostDetailPage({
     params
 }: PostDetailPageProps) {
-    const { id } = await params
-    const post = getPostById(id)
+    const {id} = await params
+    const post = await getPost(id)
 
-    if(!post){
-        notFound()
+    if(!post) {
+        return (
+            <main className="space-y-4">
+                <h1 className="text-2xl font-bold">게시글을 찾을 수 없습니다.</h1>
+                <Link href="/posts" className="text-blue-600 hover:underline">목록으로 돌아가기</Link>
+            </main>
+        )
     }
 
+    const author = await getUser(post.userId)
+
     return(
-        <article className="space-y-6">
-            <div>
-                <p className="text-sm text-gray-500">게시글 상세 페이지</p>
-                <h2 className="text-3xl font-bold">{post.title}</h2>
-                <p className="mt-2 text-sm text-gray-600">현재 URL의 id: {id}</p>
-            </div>
+        <main className="space-y-6">
+            <Link href="/posts" className="text-sm text-blue-600 hover:underline">
+                ← 목록으로 돌아가기
+            </Link>
 
-            <div className="rounded-xl bg-gray-50 p-5 text-gray-800">
-                <p className="leading-7">{post.content}</p>
-            </div>
+            <article className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <p className="text-sm text-gray-500">Post #{post.id}</p>
+                <h1 className="mt-2 text-3xl font-bold">{post.title}</h1>
 
-            <div className="flex gap-4 text-sm">
-                <Link href="/posts" className="text-blue-600 underline">목록으로 돌아가기</Link>
-                <Link href="/posts/archive" className="text-blue-600 underline">Archive 보기</Link>
-            </div>
-        </article>
+                <div className="mt-4 rounded-lg bg-gray-50 p-4 text-sm text-gray-700">
+                    <p>
+                        <span className="font-medium">작성자:</span> {author.name}
+                    </p>
+                    <p>
+                        <span className="font-medium">이메일: </span> {author.email}
+                    </p>
+                </div>
+
+                <p className="mt-6 whitespace-pre-line leading-7 text-gray-800">
+                    {post.body}
+                </p>
+            </article>
+        </main>
     )
 }
