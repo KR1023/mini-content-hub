@@ -1,6 +1,12 @@
 import Link from 'next/link'
 import { getPosts } from '@/lib/api'
 import UserPanel from '@/components/user-panel'
+import { Metadata } from 'next'
+
+export const metadata: Metadata  = {
+    title: '게시글 목록',
+    description: 'Mini Content Hub의 게시글 목록입니다. 각 게시글 상세 페이지로 이동할 수 있습니다.'
+}
 
 export default async function PostsPage(){
     const posts = await getPosts()

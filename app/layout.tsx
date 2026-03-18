@@ -3,8 +3,19 @@ import Link from 'next/link';
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Mini Content Hub",
-  description: "Next.js 학습용 미니 콘텐츠 허브",
+    metadataBase: new URL('https://yout-domain.com'),
+    title: {
+        template: '%s | Mini Content Hub',
+        default: 'Mini Content Hub',
+    },
+    description: "작은 게시글과 노트를 관리하는 Next.js 학습용 콘텐츠 허브입니다.",
+    openGraph: {
+        title: 'Mini Content Hub',
+        description: '작은 게시글과 노트를 관리하는 Next.js 학습용 컨텐츠 허브입니다.',
+        siteName: 'Mini Content Hub',
+        type: 'website',
+        images: ['/opengraph-image.png']
+    }
 };
 
 export default function RootLayout({

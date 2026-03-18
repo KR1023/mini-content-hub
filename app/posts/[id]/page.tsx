@@ -1,10 +1,42 @@
 import Link from 'next/link'
 import { getPost, getUser} from '@/lib/api'
+import { Metadata } from 'next'
 
 type PostDetailPageProps = {
     params: Promise<{
         id: string
     }>
+}
+
+export async function generateMetadata({ params } : PostDetailPageProps) {
+    const {id} = await params
+    const post = await getPost(id)
+
+    if(!post) {
+        return {
+            title: '게시글을 찾을 수 없음',
+            description: '요청한 게시글을 찾을 수 없습니다.',
+            robots: {
+                index: false,
+                follow: false
+            }
+        }
+    }
+
+    const description =
+        post.body.length > 120 ? `${post.body.substring(0, 120)}...` : post.body
+
+    return {
+        title: post.title,
+        description,
+        openGraph: {
+            title: post.title,
+            description,
+            type: 'article',
+            url: `/posts/${post.id}`,
+            images: ['/opengraph-image.png']
+        }
+    }
 }
 
 export default async function PostDetailPage({
