@@ -27,7 +27,7 @@ async function fetchJson<T>(url: string): Promise<T> {
 }
 
 export async function getPosts(): Promise<Post[]> {
-    return fetchJson(`${BASE_URL}/posts?limit=10`)
+    return fetchJson(`${BASE_URL}/posts?_limit=10`)
 }
 
 export async function getPost(id: string): Promise<Post | null> {
