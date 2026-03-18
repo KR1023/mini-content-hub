@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getPost, getUser} from '@/lib/api'
 import { Metadata } from 'next'
+import {notFound} from "next/navigation";
 
 type PostDetailPageProps = {
     params: Promise<{
@@ -46,12 +47,7 @@ export default async function PostDetailPage({
     const post = await getPost(id)
 
     if(!post) {
-        return (
-            <main className="space-y-4">
-                <h1 className="text-2xl font-bold">게시글을 찾을 수 없습니다.</h1>
-                <Link href="/posts" className="text-blue-600 hover:underline">목록으로 돌아가기</Link>
-            </main>
-        )
+        notFound()
     }
 
     const author = await getUser(post.userId)
